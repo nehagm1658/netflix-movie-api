@@ -26,16 +26,18 @@ public class MovieController {
         return new ResponseEntity<>(savedMovie, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getMovieById(@PathVariable Long id) {
-        Optional<Movie> movieOptional = movieService.getMovieById(id);
+   @GetMapping("/{id}")
+public ResponseEntity<?> getMovieById(@PathVariable Long id) {
+    Optional<Movie> movieOptional = movieService.getMovieById(id);
 
-        if (movieOptional.isPresent()) {
-            return ResponseEntity.ok(movieOptional.get());
-        } else {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("Movie not found with id: " + id);
-        }
+    if (movieOptional.isPresent()) {
+        return ResponseEntity.ok(movieOptional.get());
+    } else {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("Movie not found with id: " + id);
     }
 }
+
+    }
+
