@@ -7,8 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/movies")
 public class MovieController {
@@ -19,24 +18,19 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    // Add a new movie
     @PostMapping
     public ResponseEntity<Movie> addMovie(@Valid @RequestBody Movie movie) {
         Movie savedMovie = movieService.addMovie(movie);
         return new ResponseEntity<>(savedMovie, HttpStatus.CREATED);
     }
 
-    // Get movie by ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getMovieById(@PathVariable Long id) {
-        Optional<Movie> movieOptional = movieService.getMovieById(id);
-
-        if (movieOptional.isPresent()) {
-            return ResponseEntity.ok(movieOptional.get());
-        } else {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("Movie not found with id: " + id);
-        }
+        return movieService.getMovieById(id)
+                .<ResponseEntity<?>>map(movie -> ResponseEntity.ok(movie))
+                .orElseGet(() ->
+                        ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body("Movie not found with id: " + id)
+                );
     }
 }
