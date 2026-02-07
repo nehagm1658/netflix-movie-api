@@ -16,11 +16,11 @@ How to run the project:
 
 Available APIs:
 
-POST /api/movies
+POST /api/movies  
 Used to add a new movie.
 
-GET /api/movies/{id}
+GET /api/movies/{id}  
 Used to get a movie by its ID.
 
-Note:
+Note:  
 This project is created only for evaluation purposes.
